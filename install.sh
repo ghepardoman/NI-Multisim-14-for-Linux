@@ -7,7 +7,7 @@
 set -e # Exit on errors
 
 echo "============================================================================================"
-echo '   "NI Multisim 14 for Linux"  Copyright (C)  2026  Giovanni De Rosa, Lorenzo Pappalardo'
+echo "   `NI Multisim 14 for Linux'  Copyright (C)  2026  Giovanni De Rosa, Lorenzo Pappalardo"
 echo "   This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'."
 echo "   This is free software, and you are welcome to redistribute it"
 echo "   under certain conditions; type `show c' for details."
@@ -23,12 +23,14 @@ while true; do
   elif [[ "$GPL_choice" =~ ^[Ww]$ ]]; then
     echo "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY"
     echo "APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT"
-    echo 'HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY'
+    echo "HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM `AS IS' WITHOUT WARRANTY"
     echo "OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,"
     echo "THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR"
     echo "PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM"
     echo "IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF"
     echo "ALL NECESSARY SERVICING, REPAIR OR CORRECTION."
+    echo
+    echo
 
   elif [[ "$GPL_choice" =~ ^[Cc]$ ]]; then
     echo "This program is free software: you can redistribute it and/or modify"
@@ -39,9 +41,13 @@ while true; do
     echo
     echo "You must provide source code and preserve this license when conveying"
     echo "modified or unmodified versions."
+    echo
+    echo
 
   else
     echo "Invalid input. Press Enter with no input to skip."
+    echo
+    echo
   fi
 done
 
