@@ -6,6 +6,45 @@
 
 set -e # Exit on errors
 
+echo "============================================================================================"
+echo '   "NI Multisim 14 for Linux"  Copyright (C)  2026  Giovanni De Rosa, Lorenzo Pappalardo'
+echo "   This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'."
+echo "   This is free software, and you are welcome to redistribute it"
+echo "   under certain conditions; type `show c' for details."
+echo "============================================================================================"
+echo
+
+while true; do
+  read -p "Do you wish to see the warranty or the license details [w/c; press Enter to skip]: " GPL_choice
+
+  if [[ -z "$GPL_choice" ]]; then
+    break
+
+  elif [[ "$GPL_choice" =~ ^[Ww]$ ]]; then
+    echo "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY"
+    echo "APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT"
+    echo 'HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY'
+    echo "OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,"
+    echo "THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR"
+    echo "PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM"
+    echo "IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF"
+    echo "ALL NECESSARY SERVICING, REPAIR OR CORRECTION."
+
+  elif [[ "$GPL_choice" =~ ^[Cc]$ ]]; then
+    echo "This program is free software: you can redistribute it and/or modify"
+    echo "it under the terms of the GNU General Public License as published by"
+    echo "the Free Software Foundation, either version 3 of the License, or"
+    echo "(at your option) any later version."
+    echo
+    echo
+    echo "You must provide source code and preserve this license when conveying"
+    echo "modified or unmodified versions."
+
+  else
+    echo "Invalid input. Press Enter with no input to skip."
+  fi
+done
+
 echo "=============================="
 echo "  Multisim 14.0 Installer"
 echo "=============================="
