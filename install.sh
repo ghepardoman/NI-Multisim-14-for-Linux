@@ -7,10 +7,10 @@
 set -e # Exit on errors
 
 echo "============================================================================================"
-echo "   `NI Multisim 14 for Linux`  Copyright (C)  2026  Giovanni De Rosa, Lorenzo Pappalardo"
-echo "   This program comes with ABSOLUTELY NO WARRANTY; for details type `show w`."
+echo "   'NI Multisim 14 for Linux'  Copyright (C)  2026  Giovanni De Rosa, Lorenzo Pappalardo"
+echo "   This program comes with ABSOLUTELY NO WARRANTY; for details type 'show w'."
 echo "   This is free software, and you are welcome to redistribute it"
-echo "   under certain conditions; type `show c` for details."
+echo "   under certain conditions; type 'show c' for details."
 echo "============================================================================================"
 echo
 
@@ -23,7 +23,7 @@ while true; do
   elif [[ "$GPL_choice" =~ ^[Ww]$ ]]; then
     echo "THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY"
     echo "APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT"
-    echo "HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM `AS IS` WITHOUT WARRANTY"
+    echo "HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM 'AS IS' WITHOUT WARRANTY"
     echo "OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,"
     echo "THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR"
     echo "PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM"
