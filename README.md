@@ -87,7 +87,7 @@ Checks for and removes any existing Wine installations that may conflict with th
 
 | Distro | Method |
 |---|---|
-| **Arch** | Chaotic AUR (`wine-stable`, recommended) or AUR via `yay` |
+| **Arch** | [Chaotic AUR](https://aur.chaotic.cx/) (`wine-stable`, recommended) or AUR via `yay` |
 | **Debian/Ubuntu/Mint** | `apt` — installs `wine`, `wine32`, `wine64`, `libwine` |
 | **Fedora** | `dnf` — installs `wine`, `wine-core.i686`  |
 | **openSUSE** | `zypper` — installs `wine` |
