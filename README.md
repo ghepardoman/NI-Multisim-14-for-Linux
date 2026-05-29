@@ -140,5 +140,5 @@ Asks for system reboot, essential for the later functioning of the application.
 This project is released for educational and personal use. NI Multisim is proprietary software owned by National Instruments — ensure you have a valid license before use.
 
 ## 📌 Nota di presentazione
-Capolavoro presentato da Giovanni De Rosa e Lorenzo Pappalardo sulla Piattaforma Unica – DD MM 2026.
+Capolavoro presentato da Giovanni De Rosa e Lorenzo Pappalardo sulla Piattaforma Unica – 29 maggio 2026.
 
