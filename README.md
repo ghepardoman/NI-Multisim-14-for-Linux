@@ -27,7 +27,7 @@ Built for the redpilled breed of engineers and students who rely on [NI Multisim
 This bash script automates the full process of installing **NI Circuit Design Suite 14.0 (Multisim)** on Linux or MacOS. It handles Wine installation, a dedicated 32-bit Wine prefix, dependency setup, and the Multisim installer execution — all in a single run across all supported distros.
 
 ### Why version 14.0?
-Why this version? Multisim 14.0 is the newest version that works reliably on Linux with minimal issues while still including most of the features available in Multisim 14.3.
+Why this version? Multisim 14.0 is the newest version that works reliably on Linux and MacOS with minimal issues while still including most of the features available in Multisim 14.3.
 If you want to know more about the latest version check out [this blog post](https://lina.moe/MultiSIM.md)
 
 ---
@@ -38,7 +38,7 @@ If you want to know more about the latest version check out [this blog post](htt
 
 | Distribution Family | Tested Distros |
 |---|---|
-| 🔵 Arch Linux | [Arch](https://archlinux.org/) |
+| 🔵 Arch | [Arch Linux](https://archlinux.org/) |
 | 🟠 Debian / Ubuntu | [Ubuntu](https://ubuntu.com/) |
 | 🔴 Fedora / RHEL | [Fedora](https://fedoraproject.org/) |
 | 🟢 openSUSE | [openSUSE](https://www.opensuse.org/) Tumbleweed |
@@ -101,7 +101,7 @@ chmod +x uninstall.sh
 
 ## ⚙️ How it works
 
-### Install.sh ›
+### __Install.sh__:
 
 ### Distro Detection
 Reads `/etc/os-release` to identify your distribution family and selects the correct install path.
@@ -145,7 +145,7 @@ Removes the downloaded ZIP and extracted installer directory.
 ### Reboot
 Asks for system reboot, essential for the later functioning of the application.
 
-### install-macos.sh ›
+### __install-macos.sh__:
 ...
 
 ---
