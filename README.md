@@ -172,9 +172,6 @@ Installs required components via `winetricks`: `corefonts`, `mdac27`, `jet40`.
 ### Download & Install Multisim
 Downloads the official NI Circuit Design Suite 14.0 ZIP from National Instruments' servers, extracts it, and runs `setup.exe` through Wine.
 
-### License Activation
-Downloads and runs the **NI License Activator** inside the Wine prefix. Right-click each listed product and select **Activate**, then close when done.
-
 ### macOS App Bundle
 Creates `~/Applications/Multisim.app` so Multisim appears in **Spotlight**, can be pinned to the **Dock**, and launches like any native app.
 
@@ -209,7 +206,6 @@ Removes the downloaded ZIP and extracted installer files.
 
 ---
 
-
 ## ⚠️ Disclaimer
 
 > **This project is provided "as is", without warranty of any kind, express or implied.**
@@ -218,12 +214,12 @@ Removes the downloaded ZIP and extracted installer files.
 > - Any damage to your system resulting from the use of this script
 > - Compatibility issues with specific hardware, software, or OS versions
 > - Changes to third-party services (NI download servers, Wine, Homebrew, package repositories) that may break the installer
-> - Any legal issues arising from the installation or use of NI Multisim 14.0 or the activator
+> - Any legal issues arising from the installation or use of NI Multisim 14.0
 >
 > **NI Multisim is proprietary software owned by National Instruments (NI) / Emerson.**
 > This script only automates the download of the official installer from NI's own servers and does not redistribute any proprietary software.
 >
-> **The NI License Activator is provided by a third party and is not affiliated with the script authors.**
+>
 >
 > You are solely responsible for ensuring you have a valid license to use NI Multisim 14.0.
 
@@ -231,6 +227,8 @@ Removes the downloaded ZIP and extracted installer files.
 
 ## 📄 License
 
-This project is released for educational and personal use. NI Multisim is proprietary software owned by National Instruments — ensure you have a valid license before use.
+This script is released under the **GNU General Public License v3.0**.  
+You are free to use, modify, and redistribute it, provided you include the original copyright notice and this license.
+
 
 
