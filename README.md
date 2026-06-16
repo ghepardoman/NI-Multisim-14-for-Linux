@@ -18,7 +18,7 @@ Built for the redpilled breed of engineers and students who rely on [NI Multisim
 - [Usage](#-usage)
 - [Uninstall](#-uninstall)
 - [How it works](#%EF%B8%8F-how-it-works-on-linux)
-- [Notes & Known Issues](#-notes--known-issues)
+- [Notes & Known Issues](#%EF%B8%8F-notes--known-issues)
 
 ---
 
