@@ -426,6 +426,37 @@ elif [[ "$DISTRO_FAMILY" == "arch" || "$DISTRO_FAMILY" == "suse" ]]; then
 fi
 
 # ──────────────────────────────────────────────
+# DOWNLOAD AND RUN ACTIVATOR
+# ──────────────────────────────────────────────
+read -p "Do you want to run the License Activator? (do it at your own risk)" answer
+
+case "$answer" in 
+[Yy] | [Yy][Ee][Ss])
+  echo "Downloading NI License Activator..."
+  ACTIVATOR_URL="https://archive.org/download/NILicenseActivator1.2/NI%20License%20Activator%201.2.exe"
+  ACTIVATOR_PATH="$HOME/.multisim32/drive_c/NI.License.Activator.exe"
+
+  wget -O "$ACTIVATOR_PATH" "$ACTIVATOR_URL"
+
+  if [ -f "$ACTIVATOR_PATH" ]; then
+      echo "Running NI License Activator under Wine..."
+      (
+        WINEPREFIX="$HOME/.multisim32" \
+            WINEDEBUG=-all \
+            wine32 "$ACTIVATOR_PATH"
+      )     > /tmp/activator.log 2>&1 || true
+      echo "Activator closed."
+      sleep 5
+    
+      echo "Stopping Wine..."
+      killall wine
+  else
+      echo "ERROR: Failed to download activator. Please check your internet connection."
+      exit 1
+  fi
+esac
+
+# ──────────────────────────────────────────────
 # CLEANUP
 # ──────────────────────────────────────────────
 echo "Cleaning up installation files..."
