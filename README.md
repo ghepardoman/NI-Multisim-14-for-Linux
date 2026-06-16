@@ -206,9 +206,30 @@ Removes the downloaded ZIP and extracted installer files.
 - The app bundle contains a launcher script with correct environment variables
 - On Apple Silicon, Rosetta 2 installs automatically on first Wine launch
 - If the terminal prompts you this error: "Bad CPU type in executable", run `softwareupdate --install-rosetta`
+
 ---
 
-## License
+
+## ⚠️ Disclaimer
+
+> **This project is provided "as is", without warranty of any kind, express or implied.**
+>
+> The authors are **not responsible** for:
+> - Any damage to your system resulting from the use of this script
+> - Compatibility issues with specific hardware, software, or OS versions
+> - Changes to third-party services (NI download servers, Wine, Homebrew, package repositories) that may break the installer
+> - Any legal issues arising from the installation or use of NI Multisim 14.0 or the activator
+>
+> **NI Multisim is proprietary software owned by National Instruments (NI) / Emerson.**
+> This script only automates the download of the official installer from NI's own servers and does not redistribute any proprietary software.
+>
+> **The NI License Activator is provided by a third party and is not affiliated with the script authors.**
+>
+> You are solely responsible for ensuring you have a valid license to use NI Multisim 14.0.
+
+---
+
+## 📄 License
 
 This project is released for educational and personal use. NI Multisim is proprietary software owned by National Instruments — ensure you have a valid license before use.
 
