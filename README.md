@@ -69,7 +69,7 @@ If you want to know more about the latest version check out [this blog post](htt
 ### 1. Clone the repository
 
 ```bash
-git clone --depth 1 https://github.com/ghepardoman/NI-Multisim-14-for-Linux.git
+git clone --depth 1 https://github.com/ghepardoman/NI-Multisim-14-for-Linux-and-MacOS.git
 cd NI-Multisim-14-for-Linux
 ```
 
