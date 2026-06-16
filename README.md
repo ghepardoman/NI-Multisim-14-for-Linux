@@ -17,7 +17,7 @@ Built for the redpilled breed of engineers and students who rely on [NI Multisim
 - [MacOS Support](#-macos-support)
 - [Usage](#-usage)
 - [Uninstall](#-uninstall)
-- [How it works](#-how-it-works)
+- [How it works](#-how-it-works-on-linux)
 - [Notes & Known Issues](#-notes--known-issues)
 
 ---
@@ -99,9 +99,7 @@ chmod +x uninstall.sh
 
 ---
 
-## ⚙️ How it works
-
-### __Install.sh__:
+## ⚙️ How it works on Linux
 
 ### Distro Detection
 Reads `/etc/os-release` to identify your distribution family and selects the correct install path.
@@ -145,8 +143,44 @@ Removes the downloaded ZIP and extracted installer directory.
 ### Reboot
 Asks for system reboot, essential for the later functioning of the application.
 
-### __install-macos.sh__:
-...
+## ⚙️ How it works on MacOS
+
+### Architecture Detection
+Detects Apple Silicon vs Intel. On Apple Silicon, checks for **Rosetta 2** and installs it if missing, as it's required to run Wine.
+
+### Homebrew Check
+Verifies [Homebrew](https://brew.sh/) is installed, bootstrapping it automatically if not. On Apple Silicon, also adds it to your shell path via `~/.zprofile`.
+
+### Install Wine
+Installs `wine-stable`, `cabextract`, and `winetricks` via Homebrew, removing any conflicting Wine versions first.
+
+### Wine Prefix Setup
+Creates a dedicated prefix at `~/.multisim`, isolated from your default Wine environment. Architecture is chosen automatically:
+
+| CPU | Prefix | Reason |
+|---|---|---|
+| **Apple Silicon** | `win64` | Wine 8+ on ARM drops 32-bit support |
+| **Intel** | `win32` | Standard, matches the Multisim installer |
+
+> Windows XP compatibility mode is essential to make Multisim work.
+
+### Wine Dependencies
+Installs required components via `winetricks`: `corefonts`, `mdac27`, `jet40`.
+
+### Download & Install Multisim
+Downloads the official NI Circuit Design Suite 14.0 ZIP from National Instruments' servers, extracts it, and runs `setup.exe` through Wine.
+
+### License Activation
+Downloads and runs the **NI License Activator** inside the Wine prefix. Right-click each listed product and select **Activate**, then close when done.
+
+### macOS App Bundle
+Creates `~/Applications/Multisim.app` so Multisim appears in **Spotlight**, can be pinned to the **Dock**, and launches like any native app.
+
+### Terminal Launcher
+Installs a `multisim` command to `/usr/local/bin` for quick terminal access.
+
+### Cleanup
+Removes the downloaded ZIP and extracted installer files.
 
 ---
 
