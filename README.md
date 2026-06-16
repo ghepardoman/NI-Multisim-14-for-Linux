@@ -1,29 +1,30 @@
 <img src="assets/images/banner.png" alt="MULTISIM" />
 
-![Supported OS: Linux](https://img.shields.io/badge/Supported_OS-Linux-orange.svg)
+![Supported OS: Linux](https://img.shields.io/badge/Supported_OS-Linux%20and%20MacOS-orange.svg)
 ![Bash](https://img.shields.io/badge/Language-Bash-blue.svg)
-> Automated installer for **NI Multisim 14.0** on Linux via [Wine](https://www.winehq.org/).
+> Automated installer for **NI Multisim 14.0** on Linux and MacOS via [Wine](https://www.winehq.org/).
 
-Built for the redpilled breed of engineers and students who rely on [NI Multisim](https://www.ni.com/en/support/downloads/software-products/download.multisim.html) every day but run Linux as their primary OS. This repository provides the tools, tweaks, and compatibility setup needed to make Multisim usable on a Linux daily-driver environment without the usual headaches.
+Built for the redpilled breed of engineers and students who rely on [NI Multisim](https://www.ni.com/en/support/downloads/software-products/download.multisim.html) every day but run Linux/MacOS as their primary OS. This repository provides the tools, tweaks, and compatibility setup needed to make Multisim usable on a daily-driver environment without the usual headaches.
 
-**Authors:** Giovanni De Rosa, Lorenzo Pappalardo
+**Authors:** Giovanni De Rosa, Lorenzo Pappalardo, Andrea Lestingi
 
 ---
 
 ## 📋 Table of Contents
 
 - [Overview](#overview)
-- [Supported Distributions](#supported-distributions)
-- [Prerequisites](#prerequisites)
-- [Usage](#usage)
-- [How it works (What the Script Does)](#how-it-works-what-the-script-does)
-- [Notes & Known Issues](#notes--known-issues)
+- [Linux Support](#-linux-support)
+- [MacOS Support](#-macos-support)
+- [Usage](#-usage)
+- [Uninstall](#-uninstall)
+- [How it works](#-how-it-works)
+- [🗒️ Notes & Known Issues](#-notes--known-issues)
 
 ---
 
 ## Overview
 
-This bash script automates the full process of installing **NI Circuit Design Suite 14.0 (Multisim)** on Linux. It handles Wine installation, a dedicated 32-bit Wine prefix, dependency setup, and the Multisim installer execution — all in a single run across all supported distros.
+This bash script automates the full process of installing **NI Circuit Design Suite 14.0 (Multisim)** on Linux or MacOS. It handles Wine installation, a dedicated 32-bit Wine prefix, dependency setup, and the Multisim installer execution — all in a single run across all supported distros.
 
 ### Why version 14.0?
 Why this version? Multisim 14.0 is the newest version that works reliably on Linux with minimal issues while still including most of the features available in Multisim 14.3.
@@ -31,9 +32,9 @@ If you want to know more about the latest version check out [this blog post](htt
 
 ---
 
+## 🐧 Linux Support
 
-
-## Supported Distributions
+### Supported Distributions
 
 | Distribution Family | Tested Distros |
 |---|---|
@@ -42,15 +43,26 @@ If you want to know more about the latest version check out [this blog post](htt
 | 🔴 Fedora / RHEL | [Fedora](https://fedoraproject.org/) |
 | 🟢 openSUSE | [openSUSE](https://www.opensuse.org/) Tumbleweed |
 
----
 
-## Prerequisites
+### Prerequisites
  `wget`, `unzip` available on your system
 
 
 ---
 
-## Usage
+## 🍎 MacOS Support
+
+### Requirements
+- macOS 10.14 (Mojave) or later
+- Intel or Apple Silicon (M1/M2/M3)
+
+> **Apple Silicon note:** Wine runs via Rosetta 2. First launch may take longer.
+
+
+
+---
+
+## 💻 Usage
 
 ### 1. Clone the repository
 
@@ -62,7 +74,10 @@ cd NI-Multisim-14-for-Linux
 ### 2. Make the script executable
 
 ```bash
+#For linux:
 chmod +x install.sh
+#For MacOS:
+chmod +x install-macos.sh
 ```
 
 ### 3. Run the installer
@@ -75,7 +90,18 @@ chmod +x install.sh
 
 ---
 
-## How it works (What the Script Does)
+## 🧹 Uninstall
+
+```bash
+chmod +x uninstall.sh
+./uninstall.sh
+```
+
+---
+
+## ⚙️ How it works
+
+### Install.sh ›
 
 ### Distro Detection
 Reads `/etc/os-release` to identify your distribution family and selects the correct install path.
@@ -119,10 +145,14 @@ Removes the downloaded ZIP and extracted installer directory.
 ### Reboot
 Asks for system reboot, essential for the later functioning of the application.
 
+### install-macos.sh ›
+...
+
 ---
 
-## Notes & Known Issues
+## 🗒️ Notes & Known Issues
 
+### Linux-Specific
 - **Arch Linux users** are prompted whether to use [Chaotic AUR](https://aur.chaotic.cx/) (fast, pre-built) or compile from AUR (slow). Chaotic AUR is strongly recommended.
 - **Arch Linux users** may encounter a problem where a package that starts with "wine" (e.g. wine-stable) gets wrongly queried as "wine" when checking for conflicting packages, if that's the case then pacman will most likely fail and you'll need to remove that package manually before re-executing the script
 - **OpenSUSE users** will have their Wine continuosely try to open winedbg (which halts every wine/winetricks operation). The script `forceClosewinedbg.sh` has been included to automatically kill a winedbg instance every time it opens, so that the users doesn't have to do it themselves. After rebooting, the script will stop running and thus when trying to open Multisim a winedbg will appear; just close the window and you will have no issues running the program.
@@ -133,12 +163,17 @@ Asks for system reboot, essential for the later functioning of the application.
   update-desktop-database ~/.local/share/applications
   ```
 - Only the subsequent distros were tested: Arch Linux, Ubuntu, Fedora, openSUSE Tumbleweed.
+
+### MacOS-Specific
+- First launch may take 10–20 seconds as Wine initializes
+- XQuartz may be required for some Wine components
+- The app bundle contains a launcher script with correct environment variables
+- On Apple Silicon, Rosetta 2 installs automatically on first Wine launch
+- If the terminal prompts you this error: "Bad CPU type in executable", run `softwareupdate --install-rosetta`
 ---
 
 ## License
 
 This project is released for educational and personal use. NI Multisim is proprietary software owned by National Instruments — ensure you have a valid license before use.
 
-## 📌 Nota di presentazione
-Capolavoro presentato da Giovanni De Rosa e Lorenzo Pappalardo sulla Piattaforma Unica – 29 maggio 2026.
 
