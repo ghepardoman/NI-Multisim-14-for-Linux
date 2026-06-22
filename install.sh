@@ -269,7 +269,7 @@ rm -rf "$WORKDIR"
 # ──────────────────────────────────────────────
 # TODO: confirm/replace this with the actual raw download URL for
 # multisim.app.zip from the repo's assets/multisim14-3/macOS folder.
-MACOS_APP_ZIP_URL="https://raw.githubusercontent.com/<owner>/NI-Multisim-14-for-Linux-and-MacOS/main/assets/multisim14-3/macOS/multisim.app.zip"
+MACOS_APP_ZIP_URL="https://github.com/ghepardoman/NI-Multisim-14-for-Linux-and-MacOS/raw/refs/heads/main/assets/macOS/multisim.app.zip"
 
 install_macos_app() {
   step "Installing Multisim.app into /Applications"
