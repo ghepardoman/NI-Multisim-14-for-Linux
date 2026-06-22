@@ -70,13 +70,22 @@ export WINEPREFIX="${WINEPREFIX:-$HOME/.multisim143}"
 # Dedicated prefix (not the default ~/.wine) so this never touches/depends
 # on other Wine apps, and every run starts from known state.
 
+# All the noisy/verbose command output goes here instead of the terminal.
+# The user only sees short step titles; full output is available for debugging.
+LOGFILE="/tmp/multisim143-install-full.log"
+: >"$LOGFILE"
+
+step() {
+  echo "==> $*"
+}
+
 # ──────────────────────────────────────────────
 # PREREQUISITES
 # (installing these is out of scope for this script)
 # ──────────────────────────────────────────────
 check_prerequisites() {
   local missing=()
-  for cmd in wget git wine winetricks cabextract; do
+  for cmd in wget git wine winetricks cabextract curl unzip; do
     command -v "$cmd" &>/dev/null || missing+=("$cmd")
   done
 
@@ -86,7 +95,37 @@ check_prerequisites() {
     exit 1
   fi
 
-  echo "✅ wget, git, wine, winetricks and cabextract are all available."
+  # On Ubuntu, make sure the distro's own wine/wine32/wine64 packages are
+  # present. If only winehq-stable (from the WineHQ repo) is installed,
+  # the "wine" on PATH may not behave correctly unless
+  # PATH="/opt/wine-stable/bin:$PATH" is exported first.
+  if [ -f /etc/os-release ] && grep -qi '^ID=ubuntu' /etc/os-release; then
+    local missing_deb=()
+    for pkg in wine wine32 wine64; do
+      dpkg -s "$pkg" &>/dev/null || missing_deb+=("$pkg")
+    done
+
+    if [ ${#missing_deb[@]} -gt 0 ]; then
+      echo "❌ Ubuntu detected, but these packages are missing: ${missing_deb[*]}"
+      echo "   Install them with: sudo apt install ${missing_deb[*]}"
+      if dpkg -s winehq-stable &>/dev/null; then
+        echo "   Note: winehq-stable is installed, but that alone isn't enough -"
+        echo "   you still need the packages above, and you must run:"
+        echo "     export PATH=\"/opt/wine-stable/bin:\$PATH\""
+        echo "   before re-running this script."
+      fi
+      exit 1
+    fi
+
+    if dpkg -s winehq-stable &>/dev/null; then
+      echo "⚠️  winehq-stable is installed. Make sure you've run:"
+      echo "     export PATH=\"/opt/wine-stable/bin:\$PATH\""
+      echo "   in this shell, otherwise the wrong 'wine' binary may be used."
+      echo
+    fi
+  fi
+
+  echo "✅ wget, git, wine, winetricks, cabextract, curl and unzip are all available."
   echo
 }
 
@@ -95,8 +134,8 @@ check_prerequisites
 # ──────────────────────────────────────────────
 # CREATE THE DEDICATED PREFIX
 # ──────────────────────────────────────────────
-echo "Creating Wine prefix for Multisim at $WINEPREFIX..."
-wineboot
+step "Creating Wine prefix for Multisim at $WINEPREFIX"
+wineboot >>"$LOGFILE" 2>&1
 echo
 
 # ──────────────────────────────────────────────
@@ -131,8 +170,8 @@ choose_edition() {
     ;;
   esac
 
-  echo "Downloading $INSTALLER_FILE from NI..."
-  wget -O "$INSTALLER_FILE" "$INSTALLER_URL"
+  step "Downloading $INSTALLER_FILE from NI"
+  wget -q -O "$INSTALLER_FILE" "$INSTALLER_URL" >>"$LOGFILE" 2>&1
   echo
 }
 
@@ -141,13 +180,13 @@ choose_edition
 # ──────────────────────────────────────────────
 # WINE PREFIX SETUP
 # ──────────────────────────────────────────────
-echo "Installing core Wine dependencies (corefonts, dotnet48)..."
-winetricks -q corefonts dotnet48
+step "Running winetricks (corefonts, dotnet48)"
+winetricks -q corefonts dotnet48 >>"$LOGFILE" 2>&1
 echo
 
 set_winver_win10() {
-  echo "Setting Wine Windows version to 10 (winecfg -v, no GUI)..."
-  wine winecfg -v win10
+  step "Setting Wine Windows version to 10"
+  wine winecfg -v win10 >>"$LOGFILE" 2>&1
   echo
 }
 
@@ -159,7 +198,7 @@ set_winver_win10
 # Run through cmd's "start /wait" rather than invoking the exe directly:
 # the installer's own "please reboot" prompt at the end otherwise leaves a
 # Wine process sitting around forever and the script never gets control back.
-echo "Running the Multisim 14.3 online installer..."
+step "Running the Multisim 14.3 online installer"
 (
   WINEDEBUG=-all \
     wine cmd /c "start /wait \"\" $INSTALLER_FILE"
@@ -168,7 +207,7 @@ echo "Running the Multisim 14.3 online installer..."
 echo "Installer finished."
 sleep 5
 
-echo "Stopping Wine..."
+step "Stopping Wine"
 wineserver -k || true
 echo "Multisim installation stage complete."
 echo
@@ -178,26 +217,26 @@ echo
 # (archived copies - Microsoft's original download links are dead)
 # ──────────────────────────────────────────────
 install_database_engine() {
-  echo "Downloading MDAC 2.7 and Jet 4.0 redistributables..."
-  wget -O MDAC_TYP.EXE \
-    "https://web.archive.org/web/20060718123742/http://ftp.gunadarma.ac.id/pub/driver/itegno/USB%20Software/MDAC/MDAC_TYP.EXE"
-  wget -O Jet40SP8_9xNT.exe \
-    "https://web.archive.org/web/20210225171713/http://download.microsoft.com/download/4/3/9/4393c9ac-e69e-458d-9f6d-2fe191c51469/Jet40SP8_9xNT.exe"
+  step "Downloading MDAC 2.7 and Jet 4.0 redistributables"
+  wget -q -O MDAC_TYP.EXE \
+    "https://web.archive.org/web/20060718123742/http://ftp.gunadarma.ac.id/pub/driver/itegno/USB%20Software/MDAC/MDAC_TYP.EXE" >>"$LOGFILE" 2>&1
+  wget -q -O Jet40SP8_9xNT.exe \
+    "https://web.archive.org/web/20210225171713/http://download.microsoft.com/download/4/3/9/4393c9ac-e69e-458d-9f6d-2fe191c51469/Jet40SP8_9xNT.exe" >>"$LOGFILE" 2>&1
 
-  echo "Installing MDAC 2.7..."
-  wine MDAC_TYP.EXE
+  step "Installing MDAC 2.7"
+  wine MDAC_TYP.EXE >>"$LOGFILE" 2>&1
 
-  echo "Installing Jet 4.0..."
-  wine Jet40SP8_9xNT.exe
+  step "Installing Jet 4.0"
+  wine Jet40SP8_9xNT.exe >>"$LOGFILE" 2>&1
   echo
 
-  echo "Extracting Jet 4.0 DLLs with cabextract..."
+  step "Extracting Jet 4.0 DLLs"
   mkdir -p /tmp/jet40
   pushd /tmp/jet40 >/dev/null
 
-  cabextract "$WORKDIR/Jet40SP8_9xNT.exe"
-  cabextract jetsetup.exe
-  cabextract jetsetup.cab
+  cabextract "$WORKDIR/Jet40SP8_9xNT.exe" >>"$LOGFILE" 2>&1
+  cabextract jetsetup.exe >>"$LOGFILE" 2>&1
+  cabextract jetsetup.cab >>"$LOGFILE" 2>&1
 
   mkdir -p "$WINEPREFIX/drive_c/windows/syswow64"
   mkdir -p "$WINEPREFIX/drive_c/Program Files/Common Files/Microsoft Shared/DAO"
@@ -206,9 +245,9 @@ install_database_engine() {
   cp msjet40.dll "$WINEPREFIX/drive_c/windows/syswow64/"
   cp msrd3x40.dll "$WINEPREFIX/drive_c/windows/syswow64/"
 
-  echo "Registering DLLs..."
-  wine regsvr32 'C:\windows\syswow64\dao360.dll'
-  wine regsvr32 'C:\windows\syswow64\msjet40.dll'
+  step "Registering DLLs"
+  wine regsvr32 'C:\windows\syswow64\dao360.dll' >>"$LOGFILE" 2>&1
+  wine regsvr32 'C:\windows\syswow64\msjet40.dll' >>"$LOGFILE" 2>&1
 
   popd >/dev/null
   rm -rf /tmp/jet40
@@ -221,9 +260,53 @@ install_database_engine
 # ──────────────────────────────────────────────
 # CLEANUP
 # ──────────────────────────────────────────────
-echo "Cleaning up downloaded installer files..."
+step "Cleaning up downloaded installer files"
 cd "$HOME" || exit 1
 rm -rf "$WORKDIR"
+
+# ──────────────────────────────────────────────
+# macOS: INSTALL THE MULTISIM.APP SHORTCUT
+# ──────────────────────────────────────────────
+# TODO: confirm/replace this with the actual raw download URL for
+# multisim.app.zip from the repo's assets/multisim14-3/macOS folder.
+MACOS_APP_ZIP_URL="https://raw.githubusercontent.com/<owner>/NI-Multisim-14-for-Linux-and-MacOS/main/assets/multisim14-3/macOS/multisim.app.zip"
+
+install_macos_app() {
+  step "Installing Multisim.app into /Applications"
+
+  local tmpzip
+  tmpzip="$(mktemp /tmp/multisim_app.XXXXXX.zip)"
+
+  if ! curl -fsSL -o "$tmpzip" "$MACOS_APP_ZIP_URL" >>"$LOGFILE" 2>&1; then
+    echo "⚠️  Could not download multisim.app.zip - skipping shortcut install."
+    echo "    You can manually unzip it into /Applications/ later."
+    rm -f "$tmpzip"
+    return
+  fi
+
+  local tmpdir
+  tmpdir="$(mktemp -d /tmp/multisim_app_extract.XXXXXX)"
+  unzip -q -o "$tmpzip" -d "$tmpdir" >>"$LOGFILE" 2>&1
+
+  local app_path
+  app_path="$(find "$tmpdir" -maxdepth 2 -name '*.app' -print -quit)"
+
+  if [ -z "$app_path" ]; then
+    echo "⚠️  Could not find a .app bundle inside multisim.app.zip - skipping."
+  else
+    rm -rf "/Applications/$(basename "$app_path")"
+    cp -R "$app_path" /Applications/
+    echo "✅ Multisim shortcut installed to /Applications/$(basename "$app_path")."
+  fi
+
+  rm -f "$tmpzip"
+  rm -rf "$tmpdir"
+  echo
+}
+
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  install_macos_app
+fi
 
 echo
 echo "======================================="
