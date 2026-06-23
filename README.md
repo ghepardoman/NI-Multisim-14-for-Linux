@@ -136,7 +136,7 @@ Removes whichever temporary folders were created for installed files/extraction 
 <br>
 
 ### Adding Multisim to Applications __(macOS only)__
-Because it is not handled by macOS, unlike how it happens on Linux distros, the script creates a `.app` package that is then placed inside `/Applications/` allowing Multisim to be launched easily.
+Because it is not handled by macOS, unlike how it happens on Linux distros, the script downloads the `.app` package that we created from this repository (assets/macOS/multisim.app.zip); it is then unzipped and placed inside `/Applications/` allowing Multisim to be launched easily.
 
 <br>
 
