@@ -2,7 +2,7 @@
 
 ![Supported OS: Linux](https://img.shields.io/badge/Supported_OS-Linux%20and%20MacOS-orange.svg)
 ![Bash](https://img.shields.io/badge/Language-Bash-blue.svg)
-> Automated installer for **NI Multisim 14.0** on Linux and MacOS via [Wine](https://www.winehq.org/).
+> Automated installer for **NI Multisim 14.3** on Linux and MacOS via [Wine](https://www.winehq.org/).
 
 Built for the redpilled breed of engineers and students who rely on [NI Multisim](https://www.ni.com/en/support/downloads/software-products/download.multisim.html) every day but run Linux/MacOS as their primary OS. This repository provides the tools, tweaks, and compatibility setup needed to make Multisim usable on a daily-driver environment without the usual headaches.
 
@@ -16,19 +16,19 @@ Built for the redpilled breed of engineers and students who rely on [NI Multisim
 - [Linux Support](#-linux-support)
 - [MacOS Support](#-macos-support)
 - [Usage](#-usage)
-- [Uninstall](#-uninstall)
-- [How it works](#%EF%B8%8F-how-it-works-on-linux)
+- [How it works](#%EF%B8%8F-how-it-works)
 - [Notes & Known Issues](#%EF%B8%8F-notes--known-issues)
 
 ---
 
 ## Overview
 
-This bash script automates the full process of installing **NI Circuit Design Suite 14.0 (Multisim)** on Linux or MacOS. It handles Wine installation, a dedicated 32-bit Wine prefix, dependency setup, and the Multisim installer execution — all in a single run across all supported distros.
+This bash script automates the full process of installing **NI Circuit Design Suite 14.3 (Multisim)** on Linux or MacOS. It handles Wine installation, a dedicated Wine prefix, dependency setup, and the Multisim installer execution — all in a single run across all supported distros.
 
-### Why version 14.0?
-Why this version? Multisim 14.0 is the newest version that works reliably on Linux and MacOS with minimal issues while still including most of the features available in Multisim 14.3.
-If you want to know more about the latest version check out [this blog post](https://lina.moe/MultiSIM.md)
+
+
+### Prerequisites
+ `wget`, `git`, `wine`, `winetricks`, `cabextract`, `curl` and `unzip` available on your system
 
 ---
 
@@ -44,23 +44,16 @@ If you want to know more about the latest version check out [this blog post](htt
 | 🟢 openSUSE | [openSUSE](https://www.opensuse.org/) Tumbleweed |
 
 
-### Prerequisites
- `wget`, `unzip` available on your system
-
-
----
-
 ## 🍎 MacOS Support 
 
-### ⚠️ WORK IN PROGRESS NOT FULLY FUNCTIONING ⚠️
-
 ### Requirements
-- macOS 10.14 (Mojave) or later
-- Intel or Apple Silicon (M1/M2/M3)
+- macOS 10.14 (Mojave) or later *(the script has been tested on macOS 26)*
+- Intel or Apple Silicon
 
 > **Apple Silicon note:** Wine runs via Rosetta 2. First launch may take longer.
 
-
+Many of the required dependencies are already on the system.
+If `git` is not already present in your system, type it in your terminal: it will yield an error but you will then be prompted to install the XCode Command Line Tools and the issue will be fixed.
 
 ---
 
@@ -70,16 +63,13 @@ If you want to know more about the latest version check out [this blog post](htt
 
 ```bash
 git clone --depth 1 https://github.com/ghepardoman/NI-Multisim-14-for-Linux-and-MacOS.git
-cd NI-Multisim-14-for-Linux
+cd NI-Multisim-14-for-Linux-and-MacOS
 ```
 
 ### 2. Make the script executable
 
 ```bash
-#For linux:
 chmod +x install.sh
-#For MacOS:
-chmod +x install-macos.sh
 ```
 
 ### 3. Run the installer
@@ -92,104 +82,73 @@ chmod +x install-macos.sh
 
 ---
 
-## 🧹 Uninstall
+## ⚙️ How it works
 
-```bash
-chmod +x uninstall.sh
-./uninstall.sh
-```
+### Distro/OS Detection
+The script is "universal" in the sense that it has cross-compatibility between Linux distros/macOS without the use of unique functions, albeit the script occasionally uses `/etc/os-release` or `uname -s` if a distro-specific or macOS-specific step/fix is required.
 
----
+<br>
 
-## ⚙️ How it works on Linux
+### Checking for Prerequisites
+Automatically checks for required packages and prints out the missing ones, if any.
 
-### Distro Detection
-Reads `/etc/os-release` to identify your distribution family and selects the correct install path.
-
-### Remove Conflicting Packages
-Checks for and removes any existing Wine installations that may conflict with the version required by Multisim.
-
-### Install Wine
-
-| Distro | Method |
-|---|---|
-| **Arch** | [Chaotic AUR](https://aur.chaotic.cx/) (`wine-stable`, recommended) or AUR via `yay` |
-| **Debian/Ubuntu/Mint** | `apt` — installs `wine`, `wine32`, `wine64`, `libwine` |
-| **Fedora** | `dnf` — installs `wine`, `wine-core.i686`  |
-| **openSUSE** | `zypper` — installs `wine` |
+<br>
 
 ### Wine Prefix Setup
-Creates a dedicated **32-bit Wine prefix** at `~/.multisim32`, isolated from your default Wine environment, configured with Windows XP compatibility mode.
-> Windows XP compatibility mode is essential to make multisim work
+Creates a **dedicated Wine prefix** at `~/.multisim143`, isolated from your default Wine environment, configured with Windows 10 compatibility mode.
+Because it is just a regular 64-bit prefix there's no need to mess with wine versions.
 
-```bash
-WINEARCH=win32 WINEPREFIX="$HOME/.multisim32" winecfg -v winxp
-```
+<br>
 
-### Wine Dependencies
-Installs required components via `winetricks`:
+### Choosing Multisim Edition
+Allows you to choose whether to install Multisim Educational or Professional.
+Script-wise this only affects which installer gets downloaded with `wget`.
+Both the installers are the "online" version, making their filesize much lighter.
 
-- `corefonts` — Microsoft core fonts
-- `mdac27` — Microsoft Data Access Components 2.7
-- `jet40` — Microsoft Jet 4.0 database engine
+<br>
 
-### Download & Install Multisim
-Downloads the official NI Circuit Design Suite 14.0 installer from National Instruments' servers through wget, extracts it, and runs it through Wine.
+### Installing Multisim
+The script will run Multisim's installer; here you're required to follow the setup steps manually.
+**We highly suggest you say "no" when prompted for automatic updates at the very end of the installation.**
 
-### Desktop Launcher Fix *(Debian/Fedora)*
-Automatically patches the `.desktop` file created by the installer to ensure it uses the correct Wine prefix and `wine32` binary when launched from your application menu.
+<br>
+
+### Getting the Jet Database to work
+**MDAC 2.7** and **Jet 4.0**'s installation will be handled by the script:
+both of their redistributables are pulled with `wget` from the Web Archive
+
+**MDAC 2.7** is installed by simply running what the downloaded with Wine, `MDAC_TYP.exe`.
+
+**Jet 4.0**'s installation requires a few extra steps:
+- First the script runs through Wine the redistributable that has just been downloaded (`Jet40SP8_9xNT.exe`);
+- Then it is required to extract the DLL files by running cabextract a few times *(view `install.sh` for specific steps)`;
+- The three required DLLs are then copied inside `~/.multisim143/drive_c/windows/syswow64/`;
+- Two of the DLLs have to be registered using `wine regsvr32`.
+
+#### Why not just use Winetricks?
+Because we'd just end up having architecture-wise compatibility issues.
+
+<br>
 
 ### Cleanup
-Removes the downloaded ZIP and extracted installer directory.
+Removes whichever temporary folders were created for installed files/extraction operations.
+
+<br>
+
+### Adding Multisim to Applications __(macOS only)__
+Because it is not handled by macOS, unlike how it happens on Linux distros, the script creates a `.app` package that is then placed inside `/Applications/` allowing Multisim to be launched easily.
+
+<br>
 
 ### Reboot
-Asks for system reboot, essential for the later functioning of the application.
-
-## ⚙️ How it works on MacOS
-
-### Architecture Detection
-Detects Apple Silicon vs Intel. On Apple Silicon, checks for **Rosetta 2** and installs it if missing, as it's required to run Wine.
-
-### Homebrew Check
-Verifies [Homebrew](https://brew.sh/) is installed, bootstrapping it automatically if not. On Apple Silicon, also adds it to your shell path via `~/.zprofile`.
-
-### Install Wine
-Installs `wine-stable`, `cabextract`, and `winetricks` via Homebrew, removing any conflicting Wine versions first.
-
-### Wine Prefix Setup
-Creates a dedicated prefix at `~/.multisim`, isolated from your default Wine environment. Architecture is chosen automatically:
-
-| CPU | Prefix | Reason |
-|---|---|---|
-| **Apple Silicon** | `win64` | Wine 8+ on ARM drops 32-bit support |
-| **Intel** | `win32` | Standard, matches the Multisim installer |
-
-> Windows XP compatibility mode is essential to make Multisim work.
-
-### Wine Dependencies
-Installs required components via `winetricks`: `corefonts`, `mdac27`, `jet40`.
-
-### Download & Install Multisim
-Downloads the official NI Circuit Design Suite 14.0 ZIP from National Instruments' servers, extracts it, and runs `setup.exe` through Wine.
-
-### macOS App Bundle
-Creates `~/Applications/Multisim.app` so Multisim appears in **Spotlight**, can be pinned to the **Dock**, and launches like any native app.
-
-### Terminal Launcher
-Installs a `multisim` command to `/usr/local/bin` for quick terminal access.
-
-### Cleanup
-Removes the downloaded ZIP and extracted installer files.
+Asks for system reboot; not required but fixes any issue with running Multisim most times.
 
 ---
 
 ## 🗒️ Notes & Known Issues
 
 ### Linux-Specific
-- **Arch Linux users** are prompted whether to use [Chaotic AUR](https://aur.chaotic.cx/) (fast, pre-built) or compile from AUR (slow). Chaotic AUR is strongly recommended.
-- **Arch Linux users** may encounter a problem where a package that starts with "wine" (e.g. wine-stable) gets wrongly queried as "wine" when checking for conflicting packages, if that's the case then pacman will most likely fail and you'll need to remove that package manually before re-executing the script
-- **OpenSUSE users** will have their Wine continuosely try to open winedbg (which halts every wine/winetricks operation). The script `forceClosewinedbg.sh` has been included to automatically kill a winedbg instance every time it opens, so that the users doesn't have to do it themselves. After rebooting, the script will stop running and thus when trying to open Multisim a winedbg will appear; just close the window and you will have no issues running the program.
-- The Wine prefix is stored at `~/.multisim32` and is completely separate from any existing Wine setup you may have.
+- The Wine prefix is stored at `~/.multisim143` and is completely separate from any existing Wine setup you may have.
 - A **system reboot** is recommended after installation.
 - If Multisim does not appear in your application launcher after install, try running:
   ```bash
@@ -202,7 +161,10 @@ Removes the downloaded ZIP and extracted installer files.
 - XQuartz may be required for some Wine components
 - The app bundle contains a launcher script with correct environment variables
 - On Apple Silicon, Rosetta 2 installs automatically on first Wine launch
-- If the terminal prompts you this error: "Bad CPU type in executable", run `softwareupdate --install-rosetta`
+- If the terminal prompts you this error: "Bad CPU type in executable", run:
+  ```bash
+  softwareupdate --install-rosetta
+  ```
 
 ---
 
@@ -229,6 +191,3 @@ Removes the downloaded ZIP and extracted installer files.
 
 This script is released under the **GNU General Public License v3.0**.  
 You are free to use, modify, and redistribute it, provided you include the original copyright notice and this license.
-
-
-
