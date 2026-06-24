@@ -50,8 +50,6 @@ This bash script automates the full process of installing **NI Circuit Design Su
 - macOS 10.14 (Mojave) or later *(the script has been tested on macOS 26)*
 - Intel or Apple Silicon
 
-> **Apple Silicon note:** Wine runs via Rosetta 2. First launch may take longer.
-
 Many of the required dependencies are already on the system.
 If `git` is not already present in your system, type it in your terminal: it will yield an error but you will then be prompted to install the XCode Command Line Tools and the issue will be fixed.
 
