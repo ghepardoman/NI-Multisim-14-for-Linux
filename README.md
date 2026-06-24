@@ -54,7 +54,7 @@ Many of the required dependencies are already on the system.
 If `git` is not already present in your system, type it in your terminal: it will yield an error but you will then be prompted to install the XCode Command Line Tools and the issue will be fixed.
 
 Wine should be installed with Homebrew: `brew install --cask wine-stable winetricks`.
-If Wine suddenly disappears, `brew remove` it and install it again.
+If Wine *suddenly disappears*, `brew remove` it and install it again.
 
 ---
 
