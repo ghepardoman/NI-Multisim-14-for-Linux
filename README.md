@@ -87,31 +87,31 @@ chmod +x install.sh
 ### Distro/OS Detection
 The script is "universal" in the sense that it has cross-compatibility between Linux distros/macOS without the use of unique functions, albeit the script occasionally uses `/etc/os-release` or `uname -s` if a distro-specific or macOS-specific step/fix is required.
 
-<br>
+
 
 ### Checking for Prerequisites
 Automatically checks for required packages and prints out the missing ones, if any.
 
-<br>
+
 
 ### Wine Prefix Setup
 Creates a **dedicated Wine prefix** at `~/.multisim143`, isolated from your default Wine environment, configured with Windows 10 compatibility mode.
 Because it is just a regular 64-bit prefix there's no need to mess with wine versions.
 
-<br>
+
 
 ### Choosing Multisim Edition
 Allows you to choose whether to install Multisim Educational or Professional.
 Script-wise this only affects which installer gets downloaded with `wget`.
 Both the installers are the "online" version, making their filesize much lighter.
 
-<br>
+
 
 ### Installing Multisim
 The script will run Multisim's installer; here you're required to follow the setup steps manually.
 **We highly suggest you say "no" when prompted for automatic updates at the very end of the installation.**
 
-<br>
+
 
 ### Getting the Jet Database to work
 **MDAC 2.7** and **Jet 4.0**'s installation will be handled by the script:
@@ -128,17 +128,17 @@ both of their redistributables are pulled with `wget` from the Web Archive
 #### Why not just use Winetricks?
 Because we'd just end up having architecture-wise compatibility issues.
 
-<br>
+
 
 ### Cleanup
 Removes whichever temporary folders were created for installed files/extraction operations.
 
-<br>
+
 
 ### Adding Multisim to Applications __(macOS only)__
 Because it is not handled by macOS, unlike how it happens on Linux distros, the script downloads the `.app` package that we created from this repository (assets/macOS/multisim.app.zip); it is then unzipped and placed inside `/Applications/` allowing Multisim to be launched easily.
 
-<br>
+
 
 ### Reboot
 Asks for system reboot; not required but fixes any issue with running Multisim most times.
@@ -157,14 +157,7 @@ Asks for system reboot; not required but fixes any issue with running Multisim m
 - Only the subsequent distros were tested: Arch Linux, Ubuntu, Fedora, openSUSE Tumbleweed.
 
 ### MacOS-Specific
-- First launch may take 10–20 seconds as Wine initializes
-- XQuartz may be required for some Wine components
-- The app bundle contains a launcher script with correct environment variables
-- On Apple Silicon, Rosetta 2 installs automatically on first Wine launch
-- If the terminal prompts you this error: "Bad CPU type in executable", run:
-  ```bash
-  softwareupdate --install-rosetta
-  ```
+- The `.app` bundle needed to be created manually.
 
 ---
 
@@ -176,14 +169,14 @@ Asks for system reboot; not required but fixes any issue with running Multisim m
 > - Any damage to your system resulting from the use of this script
 > - Compatibility issues with specific hardware, software, or OS versions
 > - Changes to third-party services (NI download servers, Wine, Homebrew, package repositories) that may break the installer
-> - Any legal issues arising from the installation or use of NI Multisim 14.0
+> - Any legal issues arising from the installation or use of NI Multisim 14.3
 >
 > **NI Multisim is proprietary software owned by National Instruments (NI) / Emerson.**
 > This script only automates the download of the official installer from NI's own servers and does not redistribute any proprietary software.
 >
 >
 >
-> You are solely responsible for ensuring you have a valid license to use NI Multisim 14.0.
+> You are solely responsible for ensuring you have a valid license to use NI Multisim 14.3.
 
 ---
 
