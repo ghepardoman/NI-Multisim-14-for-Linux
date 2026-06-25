@@ -8,6 +8,7 @@ Built for the redpilled breed of engineers and students who rely on [NI Multisim
 
 **Authors:** [Giovanni De Rosa](https://github.com/ghepardoman), [Lorenzo Pappalardo](https://github.com/Lobbo4), [Andrea Lestingi](https://github.com/AndreaLestingi)
 
+> ⚠️ Beware of unofficial copies of this project.
 ---
 
 ## 📋 Table of Contents
