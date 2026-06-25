@@ -81,7 +81,6 @@ chmod +x install.sh
 ```
 
 > ⚠️ **Do not run as root.** The script uses `sudo` internally where needed.
-<br>
 
 ## 🧹 Uninstall
 
