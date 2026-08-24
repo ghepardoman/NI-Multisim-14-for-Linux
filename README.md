@@ -29,7 +29,7 @@ This bash script automates the full process of installing **NI Circuit Design Su
 
 
 ### Prerequisites
- `wget`, `git`, `wine`, `winetricks`, `cabextract`, `curl` and `unzip` available on your system
+ `wget`, `git`, `wine` or `winehq-stable`, `winetricks`, `cabextract`, `curl` and `unzip` available on your system
 
 ---
 
