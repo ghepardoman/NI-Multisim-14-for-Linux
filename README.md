@@ -124,7 +124,7 @@ The script will run Multisim's installer; here you're required to follow the set
 
 ### Getting the Jet Database to work
 **MDAC 2.7** and **Jet 4.0**'s installation will be handled by the script:
-both of their redistributables are pulled with `wget` from the Web Archive
+both of their redistributables are pulled with `wget` from the Web Archive (the same location where `winetricks` installs them from).
 
 **MDAC 2.7** is installed by simply running what the downloaded with Wine, `MDAC_TYP.exe`.
 
