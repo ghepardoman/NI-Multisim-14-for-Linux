@@ -16,7 +16,7 @@ Built for the redpilled breed of engineers and students who rely on [NI Multisim
 - [Overview](#overview)
 - [Linux Support](#-linux-support)
 - [MacOS Support](#-macos-support)
-- [Usage](#-usage)
+- [Usage](#-install)
 - [How it works](#%EF%B8%8F-how-it-works)
 - [Notes & Known Issues](#%EF%B8%8F-notes--known-issues)
 
