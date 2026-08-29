@@ -59,25 +59,10 @@ If Wine *suddenly disappears*, `brew remove` it and install it again.
 
 ---
 
-## 💻 Usage
-
-### 1. Clone the repository
+## 💻 Install
 
 ```bash
-git clone --depth 1 https://github.com/ghepardoman/NI-Multisim-14-for-Linux-and-MacOS.git
-cd NI-Multisim-14-for-Linux-and-MacOS
-```
-
-### 2. Make the script executable
-
-```bash
-chmod +x install.sh
-```
-
-### 3. Run the installer
-
-```bash
-./install.sh
+curl -fsSL https://raw.githubusercontent.com/ghepardoman/NI-Multisim-14-for-Linux-and-MacOS/main/install.sh | bash
 ```
 
 > ⚠️ **Do not run as root.** The script uses `sudo` internally where needed.
@@ -85,8 +70,7 @@ chmod +x install.sh
 ## 🧹 Uninstall
 
 ```bash
-chmod +x uninstall.sh
-./uninstall.sh
+curl -fsSL https://raw.githubusercontent.com/ghepardoman/NI-Multisim-14-for-Linux-and-MacOS/main/uninstall.sh | bash
 ```
 
 ---
